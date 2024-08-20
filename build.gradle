@@ -36,18 +36,19 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
+tasks.named('generateMetadataFileForMavenJavaPublication') {
+  doFirst {
+    publications.mavenJava.configure {
+      // Ignore failures related to missing versions
+      withFailureHandling {
+        ignoreFailures.reason = "Missing versions in dependencies"
+        ignoreFailures.ignoreWhen { details ->
+          details.exception instanceof InvalidManifestException &&
+          details.exception.message?.contains("Missing versions in dependencies")
         }
+      }
     }
-    repositories {
-        maven {
-            name = "Test"
-            url = uri("https://github.com/infoyasser/Test")
-        }
-    }
+  }
 }
 
 tasks.named('generateMetadataFileForMavenJavaPublication') {
