@@ -35,9 +35,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-tasks.named('generateMetadataFileForMavenJavaPublication') {
-    doFirst {
-        suppressedValidation("dependencies-without-versions")
-    }
-}
