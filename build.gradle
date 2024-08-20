@@ -37,21 +37,6 @@ tasks.named('test') {
 }
 
 tasks.named('generateMetadataFileForMavenJavaPublication') {
-  doFirst {
-    publications.mavenJava.configure {
-      // Ignore failures related to missing versions
-      withFailureHandling {
-        ignoreFailures.reason = "Missing versions in dependencies"
-        ignoreFailures.ignoreWhen { details ->
-          details.exception instanceof InvalidManifestException &&
-          details.exception.message?.contains("Missing versions in dependencies")
-        }
-      }
-    }
-  }
-}
-
-tasks.named('generateMetadataFileForMavenJavaPublication') {
     doFirst {
         suppressedValidation("dependencies-without-versions")
     }
