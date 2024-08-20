@@ -49,3 +49,9 @@ publishing {
         }
     }
 }
+
+tasks.named('generateMetadataFileForMavenJavaPublication') {
+    doFirst {
+        suppressedValidation("dependencies-without-versions")
+    }
+}
