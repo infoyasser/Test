@@ -50,7 +50,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        function-name: <Your-Lambda-Function-Name>
+        function-name: Hello
         zip-file: build/libs/deployment-package.zip
 
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
