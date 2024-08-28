@@ -26,6 +26,9 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.74.Final:osx-aarch_64'
+	implementation 'com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.0.0-M1'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
