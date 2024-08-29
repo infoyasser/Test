@@ -51,7 +51,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: ap-southeast-1
-        command: aws lambda create-function --function-name Test1 --runtime java17 --handler com.sample.demo.LambdaHandler --role arn:aws:lambda:ap-southeast-1:633742649825:function:Test1 --zip-file build/libs/deployment-package.zip
+        command: aws lambda create-function --function-name Test1 --runtime java17 --handler com.sample.demo.LambdaHandler --zip-file build/libs/deployment-package.zip
 
     - name: Publish to GitHub Packages
       run: ./gradlew publish
