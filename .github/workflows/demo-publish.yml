@@ -50,7 +50,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: ap-southeast-1
+        aws_region: ap-southeast-1
         command: lambda update-function-code --function-name Hello --zip-file fileb://build/libs/deployment-package.zip
 
     - name: Publish to GitHub Packages
