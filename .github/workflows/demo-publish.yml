@@ -47,9 +47,12 @@ jobs:
 
       - name: Deploy to AWS Lambda
         run: |
-          aws lambda update-function-code \
+          aws lambda create-function \
             --function-name Test \
-            --zip-file fileb://build/libs/deployment-package.zip \
+            --runtime java17 \
+            --handler com.sample.demo.LambdaHandler::handleRequest \
+            --role arn:aws:iam::633742649825:role/lambda-Role \
+            --zip-file fileb://build/libs/demo-0.0.1-SNAPSHOT.jar \
             --region ap-southeast-1
 
       - name: Publish to GitHub Packages  # Optional step, remove if not needed
