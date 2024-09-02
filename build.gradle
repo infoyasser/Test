@@ -1,12 +1,11 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.3.2'
-	id 'io.spring.dependency-management' version '1.1.6'
-	id 'maven-publish'
+	id 'org.springframework.boot' version '3.2.4'
+	id 'io.spring.dependency-management' version '1.1.2'
 }
 
-group = 'com.sample'
-version = '0.0.1-SNAPSHOT'
+group = 'com.sample.demo'
+version = '1.0-SNAPSHOT'
 
 java {
 	toolchain {
@@ -27,14 +26,78 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.74.Final:osx-aarch_64'
-	implementation 'com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.0.0-M1'
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.0.1'
+	testImplementation 'com.amazonaws.serverless:aws-serverless-java-container-core'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+
+dependencyManagement {
+	imports {
+		mavenBom "org.junit:junit-bom:5.10.2"
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+configurations {
+	shaded
+}
+
+task shadedJar(type: Jar) {
+	archiveClassifier.set('all')
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from sourceSets.main.output
+
+	configurations.shaded.each { File file ->
+		if (!file.name.contains('tomcat-embed')) {
+			from(zipTree(file))
+		}
+	}
+}
+
+tasks.named('jar') {
+	enabled = false
+}
+
+tasks.assemble {
+	dependsOn shadedJar
+	doLast {
+		// Optional: Perform additional actions after shadedJar is built (e.g., copy the zip file)
+	}
+}
+
+task copyDependencies(type: Copy) {
+	into "${buildDir}/lib"
+	from configurations.runtimeClasspath
+}
+
+task zipAssembly(type: Zip) {
+	archiveFileName = "${project.name}-${project.version}.zip"
+
+	dependsOn compileJava
+	dependsOn processResources
+
+	// Include the compiled classes and resources from the main source set
+	from('build/classes/java/main') {
+		into ''
+	}
+	from('build/resources/main') {
+		into ''
+	}
+
+	// Include the dependencies in the lib folder
+	into('lib') {
+		from copyDependencies
+	}
+}
+
+
+
+assemble {
+	dependsOn zipAssembly
 }
