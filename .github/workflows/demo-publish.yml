@@ -52,8 +52,8 @@ jobs:
             --zip-file fileb://build/distributions/demo-1.0-SNAPSHOT.zip \
             --region ap-southeast-1
 
-      - name: Publish to GitHub Packages  # Optional step, remove if not needed
-        run: ./gradlew publish
-        env:
-          USERNAME: ${{ github.actor }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+   #   - name: Publish to GitHub Packages  # Optional step, remove if not needed
+   #     run: ./gradlew publish
+   #     env:
+   #       USERNAME: ${{ github.actor }}
+   #       TOKEN: ${{ secrets.GITHUB_TOKEN }}
