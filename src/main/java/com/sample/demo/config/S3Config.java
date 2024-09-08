@@ -15,6 +15,7 @@ public class S3Config {
     public S3Client s3Client() {
         return S3Client.builder()
                 .region(Region.AP_SOUTHEAST_1) // Adjust to your bucket's region
+                .credentialsProvider(ProfileCredentialsProvider.create())
                 .build();
     }
 }
