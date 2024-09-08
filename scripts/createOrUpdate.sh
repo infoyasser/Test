@@ -16,6 +16,8 @@ if [ $? -eq 0 ]; then
   aws lambda update-function-code \
     --function-name $FUNCTION_NAME \
     --zip-file fileb://$ZIP_FILE \
+    --memory-size 512 \
+    --timeout 10 \
     --region $REGION
 else
   echo "Lambda function does not exist. Creating..."
@@ -24,6 +26,8 @@ else
     --runtime $RUNTIME \
     --handler $HANDLER \
     --role $ROLE_ARN \
+    --memory-size 512 \
+    --timeout 10 \
     --zip-file fileb://$ZIP_FILE \
     --region $REGION
 fi
