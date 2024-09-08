@@ -23,21 +23,23 @@ repositories {
 	mavenCentral()
 }
 
+dependencyManagement {
+	imports {
+		mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:3.0.1"
+		mavenBom "org.junit:junit-bom:5.10.2"
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.0.1'
-	testImplementation 'com.amazonaws.serverless:aws-serverless-java-container-core'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+	implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-
-dependencyManagement {
-	imports {
-		mavenBom "org.junit:junit-bom:5.10.2"
-	}
 }
 
 tasks.named('test') {
