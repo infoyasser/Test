@@ -24,7 +24,7 @@ public class S3Service {
 
     public S3Service() {
         this.s3Client = S3Client.builder()
-                .region(Region.US_EAST_1) // Ensure the correct region
+                .region(Region.AP_SOUTHEAST_1) // Ensure the correct region
                 .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();  // Default credentials provider chain
     }
