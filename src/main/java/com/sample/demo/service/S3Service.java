@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sample.demo.entity.Tutorial;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -24,6 +25,7 @@ public class S3Service {
     public S3Service() {
         this.s3Client = S3Client.builder()
                 .region(Region.AP_SOUTHEAST_1) // Ensure the correct region
+                .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();  // Default credentials provider chain
     }
 
