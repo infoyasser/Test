@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import com.sample.demo.entity.Tutorial;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 @CrossOrigin(origins = "http://localhost:8081")
-public class TutorialController {
+public class S3TutorialController {
 
 	@Autowired
 	private S3Service s3Service;
