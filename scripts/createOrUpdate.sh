@@ -4,7 +4,7 @@
 LAMBDA_FUNCTION_NAME="Test"
 ZIP_FILE="build/distributions/demo-1.0-SNAPSHOT.zip"
 HANDLER="com.sample.demo.LambdaHandler::handleRequest"
-ROLE_ARN="arn:aws:iam::633742649825:role/lambda-Role"
+ROLE_ARN="arn:aws:iam::633742649825:role/LambdaToS3Role"
 RUNTIME="java17"
 AWS_REGION="ap-southeast-1"
 
@@ -28,6 +28,7 @@ else
     --region $AWS_REGION
 fi
 
+if [ $? -eq 1 ]; then
 # API name (will be the same whether creating or updating)
 API_NAME="MyAPIForLambda_$LAMBDA_FUNCTION_NAME"
 
@@ -146,3 +147,5 @@ aws apigateway create-deployment \
 # Output API Gateway URL
 API_URL="https://$API_ID.execute-api.$AWS_REGION.amazonaws.com/prod/{proxy+}"
 echo "API Gateway URL: $API_URL"
+
+fi
