@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.sample.demo.service.S3Service;
 import io.awspring.cloud.s3.S3Exception;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +20,8 @@ public class TutorialController {
 	private S3Service s3Service;
 	public List<Tutorial> tutorialList = new ArrayList<>();
 
-	@PostConstruct
-	public void init() {
+
+	public void loadData() {
 		try {
 			tutorialList = s3Service.loadTutorialList("tutorials.json");
 		} catch (S3Exception e) {
@@ -39,6 +38,7 @@ public class TutorialController {
 
 	@PostMapping("/tutorials")
 	public Tutorial addTutorial(@RequestBody Tutorial tutorial) throws IOException, IOException {
+		loadData();
 		tutorialList.add(tutorial);
 		s3Service.uploadTutorialList("tutorials.json", tutorialList); // Save list to S3
 		return tutorial;
@@ -46,6 +46,7 @@ public class TutorialController {
 
 	@PutMapping("/tutorials/{tutorialId}")
 	public Tutorial updateTutorial(@PathVariable String tutorialId, @RequestBody Tutorial tutorial) throws IOException {
+		loadData();
 		tutorialList.stream()
 				.filter(item -> item.getId().equals(tutorialId))
 				.peek(item -> {
@@ -62,11 +63,13 @@ public class TutorialController {
 
 	@DeleteMapping("/tutorials/{tutorialId}")
 	public boolean deleteTutorial(@PathVariable String tutorialId) {
-		return tutorialList.removeIf(item -> item.getId().equals(tutorialId));
+		loadData();
+		return tutorialList.removeIf(item -> !item.getId().equals(tutorialId));
 	}
 
 	@GetMapping("/tutorials/{tutorialId}")
 	public Tutorial getTutorial(@PathVariable String tutorialId) {
+		loadData();
 		return tutorialList.stream()
 				.filter(item -> item.getId().equals(tutorialId))
 				.findFirst()
@@ -75,6 +78,7 @@ public class TutorialController {
 
 	@GetMapping("/tutorials")
 	public List<Tutorial> getTutorials() {
+		loadData();
 		return tutorialList;
 	}
 }
