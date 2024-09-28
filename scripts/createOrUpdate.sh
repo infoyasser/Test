@@ -28,7 +28,7 @@ else
     --region $AWS_REGION
 fi
 
-if [ $? -eq 1 ]; then
+if [ $? -eq 0 ]; then
 # API name (will be the same whether creating or updating)
 API_NAME="MyAPIForLambda_$LAMBDA_FUNCTION_NAME"
 
