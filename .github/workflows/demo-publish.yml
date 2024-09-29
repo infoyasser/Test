@@ -1,4 +1,4 @@
-name: Gradle Package and Deploy
+ name: Gradle Package and Deploy
  
 on:
   release:
@@ -43,6 +43,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Log selected action
+        run: echo "Selected action: ${{ github.event.inputs.action }}"
+
       - name: Build with Gradle
         if: ${{ github.event.inputs.action == 'build' || github.event.inputs.action == 'buildAndDeploy' }}
         run: ./gradlew clean build
@@ -62,6 +65,7 @@ jobs:
       - name: Run custom script
         if: ${{ github.event.inputs.action == 'delete-from-Cloud' }}
         run: bash ${GITHUB_WORKSPACE}/scripts/delete_lambda.sh
+
 
    #   - name: Publish to GitHub Packages  # Optional step, remove if not needed
    #     run: ./gradlew publish
