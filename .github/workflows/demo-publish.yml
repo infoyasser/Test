@@ -45,7 +45,9 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Log selected action
-        run: echo "Selected action: ${{ github.event.inputs.action }}"
+        run: echo "Selected action: $ACTION"
+        env:
+          ACTION: ${{ github.event.inputs.action }}
 
       - name: Build with Gradle
         if: ${{ (github.event.inputs.action == 'build') || (github.event.inputs.action == 'buildAndDeploy') }}
