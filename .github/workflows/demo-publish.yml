@@ -14,13 +14,13 @@ on:
       action:
         description: 'Choose an action to perform'
         required: true
-        default: 'build'
+        default: 'buildAndDeploy'
         type: choice
         options:
+          - 'buildAndDeploy'
           - 'build'
           - 'deploy'
-          - 'run-script'
-          - 'buildAndDeploy'
+          - 'delete-from-Cloud'
 
 jobs:
   build:
@@ -60,8 +60,8 @@ jobs:
         run: bash ${GITHUB_WORKSPACE}/scripts/createOrUpdate.sh
 
       - name: Run custom script
-        if: ${{ github.event.inputs.action == 'run-script' }}
-        run: bash ${GITHUB_WORKSPACE}/scripts/runAnotherScript.sh
+        if: ${{ github.event.inputs.action == 'delete-from-Cloud' }}
+        run: bash ${GITHUB_WORKSPACE}/scripts/delete_lambda.sh
 
    #   - name: Publish to GitHub Packages  # Optional step, remove if not needed
    #     run: ./gradlew publish
