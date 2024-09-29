@@ -41,7 +41,7 @@ if [ "$API_GATEWAY_ID" != "None" ] && [ -n "$API_GATEWAY_ID" ]; then
   delete_api_gateway
 else
   echo "API Gateway with name '$API_NAME' not found."
-  exit 1
+  exit 0
 fi
 
 # Delete the Lambda function
