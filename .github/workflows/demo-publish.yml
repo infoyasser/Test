@@ -1,5 +1,5 @@
- name: Gradle Package and Deploy
- 
+name: Gradle Package and Deploy
+
 on:
   release:
     types: [created]
@@ -28,6 +28,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -65,10 +66,3 @@ jobs:
       - name: Run custom script
         if: ${{ github.event.inputs.action == 'delete-from-Cloud' }}
         run: bash ${GITHUB_WORKSPACE}/scripts/delete_lambda.sh
-
-
-   #   - name: Publish to GitHub Packages  # Optional step, remove if not needed
-   #     run: ./gradlew publish
-   #     env:
-   #       USERNAME: ${{ github.actor }}
-   #       TOKEN: ${{ secrets.GITHUB_TOKEN }}
