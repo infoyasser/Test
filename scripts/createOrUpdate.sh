@@ -7,6 +7,8 @@ HANDLER="com.sample.demo.LambdaHandler::handleRequest"
 ROLE_ARN="arn:aws:iam::633742649825:role/LambdaToS3Role"
 RUNTIME="java17"
 AWS_REGION="ap-southeast-1"
+TIMEOUT=10
+MEMORY_SIZE=512
 
 # Check if the Lambda function exists
 aws lambda get-function --function-name $LAMBDA_FUNCTION_NAME --region $AWS_REGION > /dev/null 2>&1
@@ -17,6 +19,12 @@ if [ $? -eq 0 ]; then
     --function-name $LAMBDA_FUNCTION_NAME \
     --zip-file fileb://$ZIP_FILE \
     --region $AWS_REGION
+
+  aws lambda update-function-configuration \
+    --function-name $LAMBDA_FUNCTION_NAME \
+    --timeout $TIMEOUT \
+    --memory-size $MEMORY_SIZE \
+    --region $AWS_REGION
 else
   echo "Lambda function does not exist. Creating..."
   aws lambda create-function \
@@ -25,6 +33,8 @@ else
     --handler $HANDLER \
     --role $ROLE_ARN \
     --zip-file fileb://$ZIP_FILE \
+    --timeout $TIMEOUT \
+    --memory-size $MEMORY_SIZE \
     --region $AWS_REGION
 fi
 
